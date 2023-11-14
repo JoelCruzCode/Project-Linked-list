@@ -34,12 +34,12 @@ function LinkedList() {
     return size;
   }
   // returns the first node in the list
-  function head() {
+  function getHead() {
     return head;
   }
 
   // returns the last node in the list
-  function tail() {
+  function getTail() {
     let pointer = head;
     while (pointer.next !== null) {
       pointer = pointer.next;
@@ -52,20 +52,22 @@ function LinkedList() {
     let current = head;
     for (let i = 0; i < index; i++) {
       // do i need current?.next
-      current = current.next;
+      current = current?.next;
     }
     return current;
   }
 
   // removes the last element from the list
   function pop() {
+    if (size === 0) return null;
     let pointer = head;
     let nextPointer = pointer.next;
     while (nextPointer.next !== null) {
       pointer = pointer.next;
       nextPointer = nextPointer.next;
     }
-    const returnNode = pointer;
+    const returnNode = nextPointer;
+
     pointer.next = null;
     size--;
     return returnNode;
@@ -93,7 +95,7 @@ function LinkedList() {
       index++;
       pointer = pointer.next;
     }
-    return pointer; //null
+    return null;
   }
 
   // represents your LinkedList objects as strings, so you can print them out and preview them in the console
@@ -104,19 +106,47 @@ function LinkedList() {
       result += ` ( ${pointer.value} ) -> `;
       pointer = pointer.next;
     }
-    return result + "null";
-    //
+    return result === "" ? "Empty List" : result + "null";
   }
+
+  function insertAt(value, index) {
+    if (index === 0) {
+      prepend(value);
+      return;
+    }
+    const prevNode = find(index - 1);
+    const newNode = new Node(value, prevNode.next);
+    prevNode.next = newNode;
+    size++;
+  }
+
+  function removeAt(index) {
+    if (index > size || index < 0) return;
+    if (index === 0) {
+      head = head.next;
+      return;
+    }
+    const prevNode = at(index - 1);
+    prevNode.next = prevNode.next.next;
+    size--;
+
+    if (size === 0) {
+      head = null;
+    }
+  }
+
   return {
     append,
     prepend,
     size,
-    head,
-    tail,
+    getHead,
+    getTail,
     at,
     pop,
     contains,
     find,
     toString,
+    insertAt,
+    removeAt,
   };
 }
