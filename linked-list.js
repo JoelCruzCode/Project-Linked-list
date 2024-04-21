@@ -29,7 +29,7 @@ function LinkedList() {
     size++;
   }
 
-  function size() {
+  function getSize() {
     // returns the total number of nodes in the list
     return size;
   }
@@ -114,7 +114,7 @@ function LinkedList() {
       prepend(value);
       return;
     }
-    const prevNode = find(index - 1);
+    const prevNode = at(index - 1);
     const newNode = new Node(value, prevNode.next);
     prevNode.next = newNode;
     size++;
@@ -129,16 +129,12 @@ function LinkedList() {
     const prevNode = at(index - 1);
     prevNode.next = prevNode.next.next;
     size--;
-
-    if (size === 0) {
-      head = null;
-    }
   }
 
   return {
     append,
     prepend,
-    size,
+    getSize,
     getHead,
     getTail,
     at,
