@@ -59,18 +59,16 @@ function LinkedList() {
 
   // removes the last element from the list
   function pop() {
-    if (size === 0) return null;
     let pointer = head;
-    let nextPointer = pointer.next;
-    while (nextPointer.next !== null) {
+    let prevPointer;
+    while (pointer.next !== null) {
+      prevPointer = pointer;
       pointer = pointer.next;
-      nextPointer = nextPointer.next;
     }
-    const returnNode = nextPointer;
 
-    pointer.next = null;
+    prevPointer.next = null;
     size--;
-    return returnNode;
+    return pointer;
   }
 
   //   returns true if the passed in value is in the list. Otherwise returns false
